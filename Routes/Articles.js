@@ -32,7 +32,7 @@ app.get('/:slug',IfCategorieExist, (req,res)=>{
     })
 
 app.post('/:slug',
-body("Auteur").exists().withMessage('missing Author'),
+body("Auteur").isLength({min:2}).withMessage('Author too short'),
 body('Titre').isLength({min:6, max:20}).withMessage("Incorrect length, min 6 and max 20"),
 body('Description').exists().withMessage("Missing description"),
 IfCategorieExist,IfArticleExist,
