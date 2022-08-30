@@ -7,7 +7,8 @@ const {body,validationResult} = require('express-validator')
 app.get('/', (req,res)=>{
     fs.readFile('./Categories.json', (err,data) =>{
         if(err){
-            console.log(err);
+            res.status(500).json("Internal server error")
+            ;
         }else{
             const response= JSON.parse(data.toString())
             res.json(response)
@@ -26,7 +27,8 @@ app.post('/',IfCategorieExist,
       } else {
         req.categories.push(req.categorie)
         fs.writeFile('./Categories.json',JSON.stringify(req.categories),err=>{
-            console.log(err);
+            res.status(500).json("Internal server error")
+            ;
         })
         res.json('ok')
       }

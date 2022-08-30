@@ -5,7 +5,8 @@ const IfCategorieExist = (req, res, next) => {
     const Slug = slugify(req.body.Name,{lower: true})
     fs.readFile('./Categories.json', (err,data) =>{
         if(err){
-            console.log(err);
+            res.status(500).json("Internal server error")
+            ;
             return
         }else{
             const response= JSON.parse(data.toString())

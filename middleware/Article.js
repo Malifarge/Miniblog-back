@@ -7,14 +7,15 @@ const IfArticleExist = (req, res, next) => {
     const Slug = slugify(req.body.Titre,{lower: true})
     fs.readFile('./Articles.json', (err,data) =>{
         if(err){
-            console.log(err);
+            res.status(500).json("Internal server error")
+            ;
             return
         }else{
             const response= JSON.parse(data.toString())
             const articleExist= response.find(res=>res.Slug===Slug)
 
         if (articleExist){
-            res.status(409).json('article exist')
+            res.status(409).json('article already exist')
         }else{
             req.articles=response
             req.article={...req.body,
@@ -33,7 +34,8 @@ const IfCategorieExist = (req,res,next)=>{
     const {slug}= req.params
     fs.readFile('./Categories.json', (err,data) =>{
         if(err){
-            console.log(err);
+            res.status(500).json("Internal server error")
+            ;
             return
         }else{
             const response= JSON.parse(data.toString())

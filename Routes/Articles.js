@@ -9,7 +9,7 @@ const {body,validationResult} = require('express-validator')
 app.get('/', (req,res)=>{
     fs.readFile('./Articles.json', (err,data) =>{
         if(err){
-            console.log(err);
+            res.status(500).json("Internal server error")
         }else{
             const response= JSON.parse(data.toString())
             
@@ -22,7 +22,7 @@ app.get('/:slug',IfCategorieExist, (req,res)=>{
         const {slug} = req.params
         fs.readFile('./Articles.json',(err,data)=>{
             if(err){
-                console.log(err);
+                res.status(500).json("Internal server error")
             }else{
                 const response= JSON.parse(data.toString())
                 const articles= response.filter(article=>article.Categorie=== slug)
@@ -44,7 +44,8 @@ IfCategorieExist,IfArticleExist,
       } else {
         req.articles.push(req.article)
         fs.writeFile('./Articles.json',JSON.stringify(req.articles),err=>{
-                    console.log(err);
+            res.status(500).json("Internal server error")
+
         })
          res.json('ok')
       }
